@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت مخاطبین | Contact Manager</title>
+    <!-- فونت وزیرمتن -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <!-- فایل استایل -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- هدر برنامه -->
+        <header class="app-header">
+            <div class="logo">
+                <h1>مدیریت مخاطبین</h1>
+            </div>
+            <!-- دکمه تغییر تم -->
+            <button id="theme-toggle" class="btn-icon" title="تغییر حالت روشن/تاریک">
+                🌙
+            </button>
+        </header>
+
+        <!-- نوار ابزار (جستجو، مرتب‌سازی، افزودن) -->
+        <section class="toolbar">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="جستجوی نام یا نام خانوادگی..." autocomplete="off">
+            </div>
+            
+            <div class="sort-box">
+                <select id="sort-select">
+                    <option value="newest">جدیدترین ثبت</option>
+                    <option value="oldest">قدیمی‌ترین ثبت</option>
+                    <option value="alphabetical">الفبای فارسی</option>
+                </select>
+            </div>
+
+            <button id="add-contact-btn" class="btn-primary">
+                <span class="plus-icon">+</span> افزودن مخاطب
+            </button>
+        </section>
+
+        <!-- بخش نمایش لیست مخاطبین (جدول) -->
+        <main class="table-container">
+            <table class="contacts-table" id="contacts-table">
+                <thead>
+                    <tr>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>شماره تلفن</th>
+                        <th>تاریخ ثبت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody id="contacts-list">
+                    <!-- ردیف‌های مخاطبین در فازهای بعدی توسط جاوااسکریپت اینجا ساخته می‌شوند -->
+                </tbody>
+            </table>
+            
+            <!-- حالت خالی بودن جدول -->
+            <div class="empty-state" id="empty-state">
+                <p>هنوز هیچ مخاطبی ثبت نشده است.</p>
+                <p class="text-sm">برای شروع، روی دکمه «افزودن مخاطب» کلیک کنید.</p>
+            </div>
+        </main>
+    </div>
+
+        <!-- =========================================
+         مودال افزودن / ویرایش مخاطب
+         ========================================= -->
+    <div class="modal-overlay" id="contact-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">افزودن مخاطب جدید</h2>
+                <button class="close-btn" id="close-contact-modal">&times;</button>
+            </div>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="contact-name">نام <span class="required">*</span></label>
+                    <input type="text" id="contact-name" placeholder="مثلاً: علی" autocomplete="off">
+                    <span class="error-text" id="name-error">نام نمی‌تواند خالی باشد.</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-lastname">نام خانوادگی</label>
+                    <input type="text" id="contact-lastname" placeholder="مثلاً: رضایی" autocomplete="off">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-phone">شماره تلفن <span class="required">*</span></label>
+                    <input type="tel" id="contact-phone" placeholder="مثلاً: 09123456789" autocomplete="off">
+                    <span class="error-text" id="phone-error">شماره تلفن باید دقیقاً ۱۱ رقم و عدد باشد.</span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancel-contact-btn">انصراف</button>
+                    <button type="submit" class="btn-primary">ذخیره</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =========================================
+         مودال تایید حذف
+         ========================================= -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal-content delete-modal-content">
+            <div class="modal-header">
+                <h2>حذف مخاطب</h2>
+            </div>
+            <div class="modal-body">
+                <p>آیا از حذف این مخاطب مطمئن هستید؟ این عمل قابل بازگشت نیست.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" id="cancel-delete-btn">انصراف</button>
+                <button type="button" class="btn-danger" id="confirm-delete-btn">بله، حذف کن</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================
+         قالب (Template) برای ساخت ردیف جدول
+         ========================================= -->
+    <template id="contact-row-template">
+        <tr>
+            <td class="td-name"></td>
+            <td class="td-lastname"></td>
+            <td class="td-phone" dir="ltr" style="text-align: right;"></td>
+            <td class="td-date" style="color: var(--muted-foreground); font-size: 0.85rem;"></td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-edit">ویرایش</button>
+                    <button class="btn-delete">حذف</button>
+                </div>
+            </td>
+        </tr>
+    </template>
+    <!-- فایل اسکریپت -->
+    <script src="app.js"></script>
+</body>
+</html>
