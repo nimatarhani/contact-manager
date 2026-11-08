@@ -457,3 +457,35 @@ body {
         padding: 1.2rem;
     }
 }
+
+/* استایل اختصاصی دکمه خروجی CSV */
+.btn-export {
+    background-color: var(--card);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.btn-export:hover {
+    background-color: var(--accent);
+    border-color: var(--accent-hover);
+}
+
+/* اصلاح ریسپانسیو برای دکمه جدید در موبایل */
+@media (max-width: 768px) {
+    .btn-export {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
