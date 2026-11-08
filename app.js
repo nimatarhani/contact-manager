@@ -273,6 +273,56 @@ function init() {
 
 document.addEventListener('DOMContentLoaded', init);
 
+
+// =========================================
+// 9. Export to CSV (خروجی گرفتن CSV)
+// =========================================
+const exportCsvBtn = document.getElementById('export-csv-btn');
+
+exportCsvBtn.addEventListener('click', () => {
+    // اگر لیست خالی بود، کاری نکن
+    if (contacts.length === 0) {
+        alert('لیست مخاطبین شما خالی است. ابتدا مخاطب اضافه کنید.');
+        return;
+    }
+
+    // ۱. تعریف هدرهای جدول
+    const headers = ['نام', 'نام خانوادگی', 'شماره تلفن', 'تاریخ ثبت'];
+    
+    // ۲. تبدیل اطلاعات مخاطبین به آرایه‌های متنی
+    const rows = contacts.map(contact => {
+        // قرار دادن مقادیر داخل دابل کوتیشن برای جلوگیری از بهم ریختگی اگر کاما داشتند
+        return [
+            `"${contact.name || ''}"`,
+            `"${contact.lastName || ''}"`,
+            `"${contact.phone || ''}"`,
+            `"${contact.date || ''}"`
+        ].join(','); // جدا کردن با کاما
+    });
+
+    // ۳. ترکیب هدر و ردیف‌ها
+    // استفاده از \uFEFF (BOM) برای اینکه اکسل زبان فارسی را درست نشان دهد
+    const csvContent = '\uFEFF' + headers.join(',') + '\n' + rows.join('\n');
+
+    // ۴. ساخت فایل و دانلود خودکار
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    
+    link.setAttribute('href', url);
+    // نام فایل به همراه تاریخ امروز (مثلاً contacts-2023-11-10.csv)
+    const today = new Date().toISOString().split('T')[0];
+    link.setAttribute('download', `contacts-${today}.csv`);
+    
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // آزادسازی حافظه
+    URL.revokeObjectURL(url);
+});
+
 // =========================================
 // 8. Dark Mode (حالت تاریک)
 // =========================================
