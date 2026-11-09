@@ -1,0 +1,33 @@
+:root {
+  --background: #faf8ff;
+  --foreground: #1a1033;
+  --card: #ffffff;
+  --card-foreground: #1a1033;
+  --primary: #7c3aed;
+  --primary-foreground: #ffffff;
+  --primary-hover: #6d28d9;
+  --accent: #f3e8ff;
+  --accent-foreground: #581c87;
+  --accent-hover: #e9d5ff;
+  --muted: #f1ecfa;
+  --muted-foreground: #6b5b8a;
+  --border: #e8e0f5;
+  --radius: 12px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  --background: #120a24;
+  --foreground: #ece7fb;
+  --card: #1a1130;
+  --card-foreground: #ece7fb;
+  --primary: #a78bfa;
+  --primary-foreground: #120a24;
+  --primary-hover: #bba6fb;
+  --accent: #291a45;
+  --accent-foreground: #ddd6fe;
+  --accent-hover: #34215a;
+  --muted: #221738;
+  --muted-foreground: #a89ac9;
+  --border: #2e2247;
+}
