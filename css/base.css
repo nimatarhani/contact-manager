@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Vazirmatn', sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: background-color var(--transition), color var(--transition);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    caret-color: transparent; /* از مرحله قبل (مخفی کردن نشانگر) */
+}
+
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  caret-color: auto; /* برگرداندن نشانگر به فیلدها */
+}
+
+/* اسکرول‌بار سفارشی */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
